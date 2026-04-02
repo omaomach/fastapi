@@ -8,8 +8,14 @@ def index():
         'message': 'Hello World'
     }
 
+@app.get('/blog/all')
+def get_all_blogs():
+    return {
+        'message': 'All blogs provided'
+    }
+
 @app.get('/blog/{id}')
-def getBlog(id: int):
+def get_blog(id: int): # fastAPI used Pydantic to provide parameter/type validation
     return {
         'message': f"Blog with id {id}"
     }
