@@ -7,3 +7,9 @@ def index():
     return {
         'message': 'Hello World'
     }
+
+@app.get('/blog/{id}')
+def getBlog(id: int):
+    return {
+        'message': f"Blog with id {id}"
+    }
