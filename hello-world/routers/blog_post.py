@@ -1,5 +1,5 @@
-from typing import Optional
-from fastapi import APIRouter, Query
+from typing import Optional, List
+from fastapi import APIRouter, Query, Body
 from pydantic import BaseModel
 
 router = APIRouter(
@@ -28,10 +28,14 @@ def create_comment(blog: BlogModel, id: int,
             description='This API simulates posting to a blog',
             alias='commentId',
             deprecated=True
-        )
+        ),
+        content: str = Body(..., min_length=10, max_length=20, regex='^[a-z\s]*$'), # parameter validators
+        v: Optional[List[str]] = Query(['1.0', '1.1', '1.2'])
     ):
     return {
         'id': id,
         'blog': blog,
-        'comment_id': comment_id
+        'comment_id': comment_id,
+        'content': content,
+        'version': v
     }
