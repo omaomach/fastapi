@@ -1,6 +1,8 @@
 from fastapi import FastAPI # import the FastAPI class from the fastapi package
 from routers import blog_get
 from routers import blog_post
+from db import models
+from db.database import engine
 
 app = FastAPI() # used to create an instance for our application i.e to start the server and provide our paths.
 app.include_router(blog_get.router)
@@ -11,6 +13,10 @@ def index():
     return {
         'message': 'Hello World'
     }
+
+models.Base.metadata.create_all(engine)
+
+
     
 
 # Tags - They allow us to structure and organize our operations within a single file.
