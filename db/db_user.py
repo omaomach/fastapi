@@ -3,7 +3,7 @@ from sqlalchemy.orm.session import Session
 from schemas import UserBase
 from db.models import DBUser
 
-# Create functionality to write to database
+# 3. Create functionality to write to database
 
 def createUser(db: Session, request: UserBase):
     new_user = DBUser(

@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+# 4. Create schemas
+
 # The data that comes from the user
 class UserBase(BaseModel):
     username: str
