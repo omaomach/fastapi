@@ -1,10 +1,12 @@
 from fastapi import FastAPI # import the FastAPI class from the fastapi package
 from routers import blog_get
 from routers import blog_post
+from routers import user
 from db import models
 from db.database import engine
 
 app = FastAPI() # used to create an instance for our application i.e to start the server and provide our paths.
+app.include_router(user.router)
 app.include_router(blog_get.router)
 app.include_router(blog_post.router)
 
