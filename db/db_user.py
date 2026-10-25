@@ -22,10 +22,19 @@ def get_all_users(db: Session):
     return db.query(DBUser).all()
 
 def get_user(db: Session, id: int):
-    return db.query(DBUser).filter(DBUser.id == id).first()
+    user = db.query(DBUser).filter(DBUser.id == id).first()
+
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with id {id} not found')
+
+    return 
 
 def update_user(db: Session, id: int, request: UserBase):
     user = db.query(DBUser).filter(DBUser.id == id)
+
+    if not user.first:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with id {id} not found')
+
     user.update({
         DBUser.username: request.username,
         DBUser.email: request.email,
