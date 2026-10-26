@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi.responses import Response, HTMLResponse, PlainTextResponse
 
 # 5. Create API operation
@@ -18,12 +18,29 @@ def get_all_products():
     return Response(content=data, media_type="text/plain")
 
 
-@router.get('/{id}')
+@router.get('/{id}', responses={
+    200: {
+        "content": {
+            "text/html": {
+                "example":"<div>Product</div>"
+            }
+        },
+        "description": "Returns the HTML for an object"
+    },
+    404: {
+        "content": {
+            "text/plain": {
+                "Product not available"
+            }
+        },
+        "description": "A clear text error message"
+    }
+})
 def get_product(id: int):
 
     if id > len(products):
         out = "Product not available"
-        return PlainTextResponse(content=out, media_type="text/plain")
+        return PlainTextResponse(status_code=404, content=out, media_type="text/plain")
     else:
         product = products[id]
         out = f"""
