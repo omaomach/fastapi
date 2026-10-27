@@ -8,6 +8,7 @@ from db import models
 from db.database import engine
 from exceptions import StoryException
 from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI() # used to create an instance for our application i.e to start the server and provide our paths.
 app.include_router(user.router)
@@ -22,8 +23,6 @@ def index():
         'message': 'Hello World'
     }
 
-models.Base.metadata.create_all(engine)
-
 @app.exception_handler(StoryException)
 def story_exception_handler(request: Request, exc: StoryException):
     return JSONResponse(
@@ -37,5 +36,19 @@ def story_exception_handler(request: Request, exc: StoryException):
 # def custom_handler(request: Request, exc: StoryException):
 #     return PlainTextResponse(str(exc), status_code=400)
 
+models.Base.metadata.create_all(engine)
+
 # Tags - They allow us to structure and organize our operations within a single file.
 # We are able to categorize our operations based on the string we provide in the tags.
+
+origins = [
+    'http://localhost:3000'
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ['*']
+)
