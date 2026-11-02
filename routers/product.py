@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Header, Cookie, Form
 from fastapi.responses import Response, HTMLResponse, PlainTextResponse
 from typing import Optional, List
+from custom_log import log
 
 # 5. Create API operation
 
@@ -18,6 +19,8 @@ def create_product(name: str = Form(...)):
 
 @router.get('/all')
 def get_all_products():
+    log("MyAPI", "Call to get all products")
+
     # return products
 
     data = " ".join(products)
