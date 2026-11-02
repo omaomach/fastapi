@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException # import the FastAPI class from the fastapi package
 from routers import blog_get, blog_post, user, article, product, file
 from auth import authentication
+from templates import templates
 from db import models
 from db.database import engine
 from exceptions import StoryException
@@ -9,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI() # used to create an instance for our application i.e to start the server and provide our paths.
+app.include_router(templates.router)
 app.include_router(authentication.router)
 app.include_router(file.router)
 app.include_router(user.router)
@@ -54,3 +56,7 @@ app.add_middleware(
 )
 
 app.mount('/files', StaticFiles(directory="files"), name='files')
+app.mount('/templates/static', 
+    StaticFiles(directory="templates/static"),
+    name="static"
+)
